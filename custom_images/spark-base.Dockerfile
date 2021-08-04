@@ -18,8 +18,5 @@ ENV SPARK_MASTER_HOST spark-master
 ENV SPARK_MASTER_PORT 7077
 ENV PYSPARK_PYTHON python3
 
-
-
-# -- Runtime
-
 WORKDIR ${SPARK_HOME}
+COPY ./jars/spark-nlp_2.12-3.1.3.jar jars/spark-nlp_2.12-3.1.3.jar

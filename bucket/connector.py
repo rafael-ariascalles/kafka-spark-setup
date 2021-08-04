@@ -18,9 +18,9 @@ def configure_connector():
     topic_list = []
     #stagging_AIServiceClassificationInput
 
-    input_topic = NewTopic("stagging_<TABLE_TO_READ>", 10, 1)
-    middle_topic = NewTopic("preprocessed", 25, 1)
-    output_topic = NewTopic("Ai_output",25, 1)
+    input_topic = NewTopic("stagging_AIServiceClassificationInput", 10, 1)
+    middle_topic = NewTopic("lineItem_preprocessed", 25, 1)
+    output_topic = NewTopic("lineItem_serviceClassification",25, 1)
 
     topic_list.append(input_topic)
     topic_list.append(middle_topic)
@@ -50,12 +50,12 @@ def configure_connector():
                 "value.converter.schemas.enable": "false",
                 "tasks.max": "1",
                 "batch.max.rows": "500",
-                "connection.url": "<DB_CONNECTION>",
-                "connection.user": "<DB_USER>",
-                "connection.password": "<DB_PASSWORD>",
-                "table.whitelist": "<TABLE_TO_READ>",
+                "connection.url": "jdbc:sqlserver://10.40.84.41:1433;databaseName=EAC",
+                "connection.user": "ai_user",
+                "connection.password": "aiAutoclub2020",
+                "table.whitelist": "AIServiceClassificationInput",
                 "mode": "incrementing",
-                "incrementing.column.name": "<INCREMENTAL_ID",
+                "incrementing.column.name": "AIServiceClassificationID",
                 "topic.prefix": "stagging_",
                 "poll.interval.ms": "5000",
                 "connection.attempts": "10",

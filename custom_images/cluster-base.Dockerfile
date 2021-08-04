@@ -12,13 +12,11 @@ RUN mkdir -p ${shared_workspace} && \
     ln -s /usr/bin/python3 /usr/bin/python && \
     rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install --upgrade pip
-
 RUN apt-get update \
     && apt-get install -y gcc \
     && rm -rf /var/lib/apt/lists/* \
     && pip3 install --no-cache-dir tf-models-official==2.4.0 pandas numpy \
-    && pip3 install pyspark==${spark_version} \
+    && pip3 install pyspark==${spark_version} spark-nlp \
     && apt-get purge -y --auto-remove gcc
 
 ENV SHARED_WORKSPACE=${shared_workspace}
