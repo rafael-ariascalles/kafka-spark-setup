@@ -13,6 +13,17 @@ RUN apt-get update -y && \
     mkdir /usr/bin/spark-${spark_version}-bin-hadoop${hadoop_version}/logs && \
     rm spark.tgz
 
+RUN apt-get update \
+    && apt-get install -y gcc \
+    && pip3 install --no-cache-dir pyspark==${spark_version} spark-nlp \
+    && apt-get purge -y --auto-remove gcc
+
+
+RUN apt-get update \
+    && apt-get install -y gcc \
+    && pip3 install --no-cache-dir pandas numpy \
+    && apt-get purge -y --auto-remove gcc
+
 ENV SPARK_HOME /usr/bin/spark-${spark_version}-bin-hadoop${hadoop_version}
 ENV SPARK_MASTER_HOST spark-master
 ENV SPARK_MASTER_PORT 7077
