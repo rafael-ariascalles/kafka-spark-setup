@@ -7,7 +7,6 @@ ARG jupyterlab_version=3.0.15
 
 RUN apt-get update \
     && apt-get install -y gcc \
-    && apt-get install -y python3-pip && \
     && pip3 install --no-cache-dir pyspark==${spark_version} spark-nlp \
     && apt-get purge -y --auto-remove gcc \
     && pip3 install wget jupyterlab==${jupyterlab_version} 
