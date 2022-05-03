@@ -1,26 +1,23 @@
-"""Configures a Kafka Connector for Postgres Station data"""
 import json
 from confluent_kafka.admin import AdminClient, NewTopic
 import requests
 
 KAFKA_CONNECT_URL = "http://connect:8083/connectors"
 KAFKA_BROKER = "PLAINTEXT://kafka0:19092"
-CONNECTOR_NAME = "aiproducer"
+CONNECTOR_NAME = "producer"
 
 def configure_connector():
-    """Starts and configures the Kafka Connect connector"""
+    """
+    Starts and configures the Kafka Connect connector
+    """
     
     
-    print("create initial topic")
-    
+    print("create initial topic")    
     admin_client = AdminClient({"bootstrap.servers":KAFKA_BROKER})
-    
     topic_list = []
-    #stagging_AIServiceClassificationInput
-
-    input_topic = NewTopic("stagging_AIServiceClassificationInput", 10, 1)
-    middle_topic = NewTopic("lineItem_preprocessed", 25, 1)
-    output_topic = NewTopic("lineItem_serviceClassification",25, 1)
+    input_topic = NewTopic("staging_input", 10, 1)
+    middle_topic = NewTopic("preprocess", 25, 1)
+    output_topic = NewTopic("inference",25, 1)
 
     topic_list.append(input_topic)
     topic_list.append(middle_topic)
@@ -50,13 +47,13 @@ def configure_connector():
                 "value.converter.schemas.enable": "false",
                 "tasks.max": "1",
                 "batch.max.rows": "500",
-                "connection.url": "jdbc:sqlserver://10.40.84.41:1433;databaseName=EAC",
-                "connection.user": "ai_user",
-                "connection.password": "aiAutoclub2020",
-                "table.whitelist": "AIServiceClassificationInput",
+                "connection.url": "jdbc:sqlserver://<SERVERNAME>:<PORT>;databaseName=<DBNAME>",
+                "connection.user": "<USER>",
+                "connection.password": "<PASSWORD>",
+                "table.whitelist": "<TABLENAME_TO_MONITOR>",
                 "mode": "incrementing",
-                "incrementing.column.name": "AIServiceClassificationID",
-                "topic.prefix": "stagging_",
+                "incrementing.column.name": "<COLUMN_TO_DETECT_INCREMENT>",
+                "topic.prefix": "staging_",
                 "poll.interval.ms": "5000",
                 "connection.attempts": "10",
                 "connection.backoff.ms":"30000",
